@@ -1,0 +1,33 @@
+<?php
+if(isset($_POST["submit"])&&$_POST["submit"]=="登录")
+{
+	$user=$_POST["username"];
+	$psw=$_POST["password"];
+	if($user==""||$psw=="")
+	{
+		echo"<script>alert('请输入用户名或密码！');history.go(-1);</script>";
+	}
+	else
+	{
+		mysql_connect("localhost","root","root");
+		mysql_select_db("book");
+		mysql_query("setnames'gbk'");
+		$sql="select MemberName,MemberPassword from members where MemberName='$_POST[username]'and MemberPassword='$_POST[password]'";
+		$result=mysql_query($sql);
+		$num=mysql_num_rows($result);
+		if($num)
+		{
+			echo"<script>alert('登录成功!');window.location='Home.php?isLog=1&Logname=$_POST[username]';</script>";
+		}
+		else
+		{
+			echo"<script>alert('用户名或密码不正确！');history.go(-1);</script>";
+		}
+	}
+} 
+else
+{
+	echo"<script>alert('提交未成功！');history.go(-1);</script>";
+}
+
+?>
